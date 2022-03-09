@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Image, TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+import { AddToCartButton } from '../AddToCartButton/AddToCartButton';
+import { styles } from './ProductCard.styles';
 
 interface ProductCartProps {
   width: number;
@@ -15,7 +17,7 @@ export const ProductCard = ({ width }: ProductCartProps) => {
             source={{
               uri: 'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
             }}
-            style={[styles.image, { width, height: width - 30 }]}
+            style={[styles.image, { width, height: width * 0.7 }]}
           />
         </View>
         <View style={[styles.details, { width }]}>
@@ -29,66 +31,10 @@ export const ProductCard = ({ width }: ProductCartProps) => {
           <View style={styles.footer}>
             <Text style={styles.price}>$123</Text>
 
-            <TouchableOpacity
-              style={[styles.button, styles.shadow]}
-              onPress={() => {}}>
-              <Text style={styles.buttonLabel}>Add</Text>
-            </TouchableOpacity>
+            <AddToCartButton />
           </View>
         </View>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 10,
-    overflow: 'hidden',
-    backgroundColor: '#fff',
-  },
-  shadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-  },
-  details: {
-    padding: 10,
-  },
-  title: {
-    color: '#4A5568',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  price: {
-    color: '#2D3748',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  footer: {
-    marginTop: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#3182CE',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 20,
-  },
-  buttonLabel: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  image: {
-    resizeMode: 'cover',
-  },
-});
