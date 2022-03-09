@@ -1,4 +1,3 @@
-import React from 'react';
 import { Dimensions, Image, Text, View } from 'react-native';
 import { QuantityButton } from '../QuantityButton/QuantityButton';
 import { styles } from './CartItem.styles';

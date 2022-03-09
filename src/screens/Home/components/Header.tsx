@@ -1,4 +1,3 @@
-import React from 'react';
 import { Text, View } from 'react-native';
 import { Cart } from '../../../components/Cart/Cart';
 import { Search } from '../../../components/Search/Search';

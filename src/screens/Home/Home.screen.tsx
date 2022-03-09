@@ -1,4 +1,3 @@
-import React from 'react';
 import { Dimensions, FlatList, SafeAreaView, View } from 'react-native';
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { DEFAULT_SPACE } from '../../constants';

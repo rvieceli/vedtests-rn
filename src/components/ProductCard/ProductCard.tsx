@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Image, Text, View } from 'react-native';
 import { AddToCartButton } from '../AddToCartButton/AddToCartButton';
 import { styles } from './ProductCard.styles';

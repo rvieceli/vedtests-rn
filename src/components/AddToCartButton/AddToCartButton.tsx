@@ -1,4 +1,3 @@
-import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { styles } from './AddToCartButton.styles';
 import Icon from 'react-native-vector-icons/Ionicons';
