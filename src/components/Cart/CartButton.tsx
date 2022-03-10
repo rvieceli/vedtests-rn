@@ -10,6 +10,7 @@ export const CartButton = ({ onPress }: CartButtonProps) => {
   const badge = 10;
   return (
     <TouchableOpacity
+      testID="cart-button-open"
       style={styles.container}
       onPress={onPress}
       hitSlop={{

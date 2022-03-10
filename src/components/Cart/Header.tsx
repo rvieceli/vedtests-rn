@@ -10,7 +10,7 @@ export const Header = ({ onPress }: HeaderProps) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Cart</Text>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity testID="cart-header-close-button" onPress={onPress}>
         <Icon name="close" size={20} color="#4A5568" />
       </TouchableOpacity>
     </View>

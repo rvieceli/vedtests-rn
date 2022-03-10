@@ -1,5 +1,4 @@
 import { render, fireEvent } from '@testing-library/react-native';
-// import renderer from 'react-test-renderer';
 import { AddToCartButton } from './AddToCartButton';
 
 const onPress = jest.fn();
