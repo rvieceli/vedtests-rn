@@ -24,7 +24,7 @@ describe('QuantityButton component', () => {
   };
 
   describe('when it renders', () => {
-    it('should renders correctly', async () => {
+    it('should render correctly', () => {
       const { container, quantity, increase, decrease } = renderButton();
       expect(container).toBeDefined();
       expect(quantity).toBeDefined();
@@ -50,8 +50,8 @@ describe('QuantityButton component', () => {
     it('should trigger onChange prop', () => {
       const { onChange, increase } = renderButton();
       fireEvent.press(increase);
-      expect(onChange).toBeCalledTimes(1);
-      expect(onChange).toBeCalledWith(2);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith(2);
     });
   });
 
@@ -76,8 +76,8 @@ describe('QuantityButton component', () => {
       const { onChange, decrease } = renderButton();
 
       fireEvent.press(decrease);
-      expect(onChange).toBeCalledTimes(1);
-      expect(onChange).toBeCalledWith(0);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith(0);
     });
   });
 });

@@ -1,35 +1,51 @@
-import { Image, Text, View } from 'react-native';
+import { Dimensions, Image, Text, View } from 'react-native';
+import { DEFAULT_SPACE } from '../../constants';
 import { AddToCartButton } from '../AddToCartButton/AddToCartButton';
 import { styles } from './ProductCard.styles';
 
+type Product = {
+  id: number;
+  title: string;
+  price: string;
+  image: string;
+};
 interface ProductCartProps {
-  width: number;
+  product: Product;
+  addToCart: (product: Product) => void;
 }
 
-export const ProductCard = ({ width }: ProductCartProps) => {
+const { width } = Dimensions.get('window');
+
+const cardWidth = (width - DEFAULT_SPACE * 2) / 2 - 10;
+
+export const ProductCard = ({ product, addToCart }: ProductCartProps) => {
   return (
-    <View style={styles.shadow}>
+    <View testID="product-card" style={styles.shadow}>
       <View style={styles.container}>
         <View>
           <Image
+            testID="product-card-image"
             source={{
-              uri: 'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+              uri: product.image,
             }}
-            style={[styles.image, { width, height: width * 0.7 }]}
+            style={[
+              styles.image,
+              { width: cardWidth, height: cardWidth * 0.7 },
+            ]}
           />
         </View>
-        <View style={[styles.details, { width }]}>
+        <View style={[styles.details, { width: cardWidth }]}>
           <Text
             style={styles.title}
             numberOfLines={2}
             adjustsFontSizeToFit
             minimumFontScale={0.7}>
-            WATCH VERY
+            {product.title}
           </Text>
           <View style={styles.footer}>
-            <Text style={styles.price}>$123</Text>
+            <Text style={styles.price}>${product.price}</Text>
 
-            <AddToCartButton />
+            <AddToCartButton onPress={() => addToCart(product)} />
           </View>
         </View>
       </View>
