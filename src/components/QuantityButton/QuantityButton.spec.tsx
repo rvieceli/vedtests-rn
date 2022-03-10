@@ -23,7 +23,7 @@ describe('QuantityButton component', () => {
     };
   };
 
-  describe('when its render', () => {
+  describe('when it renders', () => {
     it('should renders correctly', async () => {
       const { container, quantity, increase, decrease } = renderButton();
       expect(container).toBeDefined();
