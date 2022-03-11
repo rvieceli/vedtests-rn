@@ -7,7 +7,11 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+    "test:unit": "jest --config=jest.unit.config.js",
     "test:watch": "jest --watchAll",
+    "test:unit:watch": "jest --config=jest.unit.config.js  --watchAll",
+    "test:integration": "jest --config=jest.integration.config.js",
+    "test:integration:watch": "jest --config=jest.integration.config.js --watchAll",
     "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
@@ -41,30 +45,5 @@
   },
   "resolutions": {
     "@types/react": "^17"
-  },
-  "jest": {
-    "preset": "react-native",
-    "rootDir": "./src",
-    "setupFilesAfterEnv": [
-      "@testing-library/jest-native/extend-expect"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!(@react-native|react-native|react-native-vector-icons)/)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "collectCoverageFrom": [
-      "<rootDir>/components/**/*.(ts|tsx)",
-      "!<rootDir>/components/**/*.styles.(ts|tsx)",
-      "<rootDir>/screens/**/*.(ts|tsx)",
-      "!<rootDir>/screens/**/*.styles.(ts|tsx)"
-    ],
-    "coverageDirectory": "<rootDir>/../coverage"
   }
 }
