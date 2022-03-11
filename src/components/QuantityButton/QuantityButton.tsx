@@ -1,33 +1,38 @@
-import { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { styles } from './QuantityButton.styles';
 
-interface QuantityButtonProps {
-  initialQuantity: number;
+export interface QuantityButtonProps {
+  value: number;
   onChange: (quantity: number) => void;
+  min?: number;
+  max?: number;
 }
 
 export const QuantityButton = ({
   onChange,
-  initialQuantity,
+  value,
+  min,
+  max,
 }: QuantityButtonProps) => {
-  const [quantity, setQuantity] = useState(initialQuantity);
-
   const handleIncrease = () => {
-    const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
-    onChange(newQuantity);
+    const newValue = value + 1;
+
+    if (typeof max === 'number' && newValue > max) {
+      return;
+    }
+    onChange(newValue);
   };
 
   const handleDecrease = () => {
-    if (quantity < 1) {
+    const newValue = value - 1;
+
+    if (typeof min === 'number' && newValue < min) {
       return;
     }
-    const newQuantity = quantity - 1;
-    setQuantity(newQuantity);
-    onChange(newQuantity);
+
+    onChange(newValue);
   };
 
   return (
@@ -38,7 +43,7 @@ export const QuantityButton = ({
         <Icon name="add-circle-outline" size={18} color="#718096" />
       </TouchableOpacity>
       <Text testID="quantity-button-quantity" style={styles.quantity}>
-        {quantity}
+        {value}
       </Text>
       <TouchableOpacity
         testID="quantity-button-decrease"

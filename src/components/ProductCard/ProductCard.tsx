@@ -9,6 +9,7 @@ type Product = {
   price: string;
   image: string;
 };
+
 interface ProductCartProps {
   product: Product;
   addToCart: (product: Product) => void;

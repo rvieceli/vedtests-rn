@@ -1,18 +1,33 @@
+import { useState } from 'react';
 import { Dimensions, Image, Text, View } from 'react-native';
 import { QuantityButton } from '../QuantityButton/QuantityButton';
 import { styles } from './CartItem.styles';
+
+type Product = {
+  id: number;
+  title: string;
+  price: string;
+  image: string;
+};
+interface CartItemProps {
+  product: Product;
+}
 
 const { width } = Dimensions.get('window');
 
 const cardWidth = width / 5;
 
-export const CartItem = () => {
+export const CartItem = ({ product }: CartItemProps) => {
+  const [quantity, setQuantity] = useState(1);
+
   return (
-    <View style={styles.container}>
+    <View testID="cart-item" style={styles.container}>
       <Image
+        testID="cart-item-image"
         source={{
-          uri: 'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+          uri: product.image,
         }}
+        accessibilityLabel={product.title}
         style={[styles.image, { width: cardWidth, height: cardWidth }]}
       />
       <View style={styles.details}>
@@ -21,11 +36,11 @@ export const CartItem = () => {
           numberOfLines={2}
           adjustsFontSizeToFit
           minimumFontScale={0.7}>
-          WATCH VERY
+          {product.title}
         </Text>
         <View style={styles.footer}>
-          <QuantityButton />
-          <Text style={styles.price}>$123</Text>
+          <QuantityButton value={quantity} onChange={setQuantity} min={0} />
+          <Text style={styles.price}>${product.price}</Text>
         </View>
       </View>
     </View>

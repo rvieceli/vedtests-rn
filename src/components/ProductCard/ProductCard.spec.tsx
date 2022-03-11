@@ -11,20 +11,20 @@ const product = {
 
 const addToCard = jest.fn();
 
-const renderAddToCart = () => {
+const renderProductCart = () => {
   return render(<ProductCard product={product} addToCart={addToCard} />);
 };
 
 describe('ProductCard component', () => {
   it('should render correctly', () => {
-    const { getByTestId } = renderAddToCart();
+    const { getByTestId } = renderProductCart();
     const card = getByTestId('product-card');
 
     expect(card).toBeDefined();
   });
 
   it('should display proper content', async () => {
-    const { getByText, getByTestId } = renderAddToCart();
+    const { getByText, getByTestId } = renderProductCart();
 
     const image = getByTestId('product-card-image');
 
@@ -35,7 +35,7 @@ describe('ProductCard component', () => {
 
   describe('when AddToCartButton is pressed', () => {
     it('should call props.addToCart with product', () => {
-      const { getByTestId } = renderAddToCart();
+      const { getByTestId } = renderProductCart();
       const button = getByTestId('add-to-cart-button');
 
       fireEvent.press(button);
