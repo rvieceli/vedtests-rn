@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
   column: {
     justifyContent: 'space-between',
   },
+
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',

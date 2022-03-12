@@ -1,11 +1,21 @@
 import { Text, View } from 'react-native';
 import { styles } from './PageInfo.styles';
 
-export const PageInfo = () => {
+interface PageInfoProps {
+  quantity: number;
+}
+
+export const PageInfo = ({ quantity }: PageInfoProps) => {
+  if (quantity <= 0) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
+    <View testID="page-info" style={styles.container}>
       <Text style={styles.title}>Wrist Watch</Text>
-      <Text style={styles.total}>200+ Products</Text>
+      <Text style={styles.total}>
+        {quantity} Product{quantity > 1 && 's'}
+      </Text>
     </View>
   );
 };

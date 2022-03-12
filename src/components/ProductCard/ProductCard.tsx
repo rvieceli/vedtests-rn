@@ -4,9 +4,9 @@ import { AddToCartButton } from '../AddToCartButton/AddToCartButton';
 import { styles } from './ProductCard.styles';
 
 type Product = {
-  id: number;
+  id: string;
   title: string;
-  price: string;
+  price: number;
   image: string;
 };
 

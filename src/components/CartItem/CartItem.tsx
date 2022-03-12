@@ -4,9 +4,9 @@ import { QuantityButton } from '../QuantityButton/QuantityButton';
 import { styles } from './CartItem.styles';
 
 type Product = {
-  id: number;
+  id: string;
   title: string;
-  price: string;
+  price: number;
   image: string;
 };
 interface CartItemProps {
