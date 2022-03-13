@@ -46,7 +46,7 @@ describe('Search component', () => {
 
   describe('when search input is focused', () => {
     describe('and TextInput has some value', () => {
-      it('should show run (chevron-left >) button the run the filter', async () => {
+      it('should show run (>) button the run the filter', async () => {
         const { searchInput, queryByTestId } = renderSearch();
 
         expect(queryByTestId('search-do')).toBeNull();
@@ -56,6 +56,25 @@ describe('Search component', () => {
 
         expect(queryByTestId('search-do')).not.toBeNull();
         expect(queryByTestId('search-clear')).toBeNull();
+      });
+
+      describe('and get out of the focus', () => {
+        it('should replace run (>) button with clear (x) button', () => {
+          const { searchInput, queryByTestId } = renderSearch();
+
+          expect(queryByTestId('search-do')).toBeNull();
+
+          fireEvent.changeText(searchInput, searchTerm);
+          fireEvent(searchInput, 'focus');
+
+          expect(queryByTestId('search-do')).not.toBeNull();
+          expect(queryByTestId('search-clear')).toBeNull();
+
+          fireEvent(searchInput, 'blur');
+
+          expect(queryByTestId('search-do')).toBeNull();
+          expect(queryByTestId('search-clear')).not.toBeNull();
+        });
       });
     });
     describe('and TextInput is empty', () => {
