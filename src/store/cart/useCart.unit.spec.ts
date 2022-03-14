@@ -10,7 +10,7 @@ describe('useCart store', () => {
   let server: Server;
 
   beforeEach(() => {
-    server = makeServer({ environment: 'development' });
+    server = makeServer({ environment: 'test' });
   });
 
   afterEach(() => {

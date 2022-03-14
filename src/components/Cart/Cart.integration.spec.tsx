@@ -9,7 +9,7 @@ describe('Card component', () => {
   let result: RenderResult<CartStore>;
 
   beforeEach(() => {
-    server = makeServer({ environment: 'development' });
+    server = makeServer({ environment: 'test' });
     result = renderHook(() => useCartStore()).result;
   });
 
