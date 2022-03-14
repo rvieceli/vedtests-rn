@@ -1,5 +1,5 @@
-import { Text, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Text, View } from 'react-native';
+import { IconButton } from '../IconButton/IconButton';
 
 import { styles } from './QuantityButton.styles';
 
@@ -37,19 +37,23 @@ export const QuantityButton = ({
 
   return (
     <View style={styles.container} testID="quantity-button">
-      <TouchableOpacity
-        testID="quantity-button-increase"
-        onPress={handleIncrease}>
-        <Icon name="add-circle-outline" size={18} color="#718096" />
-      </TouchableOpacity>
+      <IconButton
+        testID="quantity-button-decrease"
+        onPress={handleDecrease}
+        name="remove-circle-outline"
+        size={18}
+        color="#718096"
+      />
       <Text testID="quantity-button-quantity" style={styles.quantity}>
         {value}
       </Text>
-      <TouchableOpacity
-        testID="quantity-button-decrease"
-        onPress={handleDecrease}>
-        <Icon name="remove-circle-outline" size={18} color="#718096" />
-      </TouchableOpacity>
+      <IconButton
+        testID="quantity-button-increase"
+        onPress={handleIncrease}
+        name="add-circle-outline"
+        size={18}
+        color="#718096"
+      />
     </View>
   );
 };

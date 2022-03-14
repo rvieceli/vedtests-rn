@@ -1,6 +1,7 @@
 import 'abort-controller/polyfill';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { CartModal } from './src/components/CartModal/CartModal';
 
 import { HomeScreen } from './src/screens/Home/Home.screen';
 
@@ -12,6 +13,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <HomeScreen />
+      <CartModal />
     </SafeAreaProvider>
   );
 };

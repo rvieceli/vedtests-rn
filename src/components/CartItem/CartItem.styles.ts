@@ -9,21 +9,28 @@ export const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
-    padding: 10,
+    paddingHorizontal: 10,
+    justifyContent: 'space-around',
   },
   title: {
     color: '#4A5568',
     fontSize: 16,
   },
   footer: {
-    paddingTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  options: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   price: {
+    flex: 3,
     color: '#2D3748',
     fontSize: 18,
     fontWeight: '500',
+    marginVertical: 5,
   },
 });

@@ -3,11 +3,7 @@ import { Response, Server } from 'miragejs';
 import { makeServer } from '../miragejs/server';
 import { useFetchProducts } from './useFetchProducts';
 
-jest.mock('react-native-safe-area-context', () => ({
-  useSafeAreaInsets: () => ({ bottom: 0 }),
-}));
-
-describe('useFetchProducts', () => {
+describe('useFetchProducts api', () => {
   let server: Server;
 
   beforeEach(() => {

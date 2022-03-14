@@ -1,11 +1,9 @@
+import { renderHook } from '@testing-library/react-hooks';
 import { render, waitFor, fireEvent } from '@testing-library/react-native';
 import { Response, Server } from 'miragejs';
 import { makeServer } from '../../miragejs/server';
+import { useCartStore } from '../../store/cart';
 import { HomeScreen } from './Home.screen';
-
-jest.mock('react-native-safe-area-context', () => ({
-  useSafeAreaInsets: () => ({ bottom: 0 }),
-}));
 
 const renderHomeScreen = () => render(<HomeScreen />);
 
@@ -50,6 +48,24 @@ describe('Home screen', () => {
       const productQuantity = await waitFor(() => getByText(/10 Products/i));
 
       expect(productQuantity).not.toBeNull();
+    });
+
+    it('should add product to cart', async () => {
+      server.createList('product', 2);
+
+      const { result } = renderHook(() => useCartStore());
+
+      const { getAllByTestId } = renderHomeScreen();
+
+      expect(result.current.state.items).toHaveLength(0);
+
+      const addToCartButtons = await waitFor(() =>
+        getAllByTestId('add-to-cart-button'),
+      );
+
+      addToCartButtons.forEach((button) => fireEvent.press(button));
+
+      expect(result.current.state.items).toHaveLength(2);
     });
   });
 

@@ -1,7 +1,8 @@
 const jestPreset = require('@testing-library/react-native/jest-preset');
 
 module.exports = {
-  preset: 'react-native',
+  // preset: 'react-native',
+  preset: '@testing-library/react-native',
   rootDir: './src',
   setupFiles: [...jestPreset.setupFiles],
   setupFilesAfterEnv: ['../jest.setup.js'],
@@ -11,10 +12,11 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   collectCoverageFrom: [
     '<rootDir>/components/**/*.(ts|tsx)',
-    '!<rootDir>/components/**/*.styles.(ts|tsx)',
     '<rootDir>/screens/**/*.(ts|tsx)',
-    '!<rootDir>/screens/**/*.styles.(ts|tsx)',
     '<rootDir>/hooks/**/*.(ts|tsx)',
+    '<rootDir>/store/**/*.(ts|tsx)',
+    '!<rootDir>/**/*.styles.(ts|tsx)',
+    '!<rootDir>/**/*.types.ts',
   ],
   coverageDirectory: '<rootDir>/../coverage',
 };

@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { IconButton } from '../IconButton/IconButton';
 import { styles } from './Search.styles';
 
 interface SearchProps {
@@ -22,15 +23,23 @@ export const Search = ({ doSearch }: SearchProps) => {
     }
     if (isFocused) {
       return (
-        <TouchableOpacity testID="search-do" onPress={() => doSearch(term)}>
-          <Icon name="chevron-forward" size={16} color="#718096" />
-        </TouchableOpacity>
+        <IconButton
+          testID="search-do"
+          onPress={() => doSearch(term)}
+          name="chevron-forward"
+          size={16}
+          color="#718096"
+        />
       );
     } else {
       return (
-        <TouchableOpacity testID="search-clear" onPress={handleClear}>
-          <Icon name="close" size={16} color="#718096" />
-        </TouchableOpacity>
+        <IconButton
+          testID="search-clear"
+          onPress={handleClear}
+          name="close"
+          size={16}
+          color="#718096"
+        />
       );
     }
   };

@@ -1,6 +1,5 @@
-import { TouchableOpacity } from 'react-native';
 import { styles } from './AddToCartButton.styles';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { IconButton } from '../IconButton/IconButton';
 
 interface AddToCartButtonProps {
   onPress: () => void;
@@ -8,11 +7,13 @@ interface AddToCartButtonProps {
 
 export const AddToCartButton = ({ onPress }: AddToCartButtonProps) => {
   return (
-    <TouchableOpacity
+    <IconButton
       testID="add-to-cart-button"
       style={[styles.button, styles.shadow]}
-      onPress={onPress}>
-      <Icon name="cart-outline" size={14} color="#fff" />
-    </TouchableOpacity>
+      onPress={onPress}
+      name="cart-outline"
+      size={14}
+      color="#fff"
+    />
   );
 };

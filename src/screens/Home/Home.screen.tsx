@@ -6,16 +6,19 @@ import {
   Text,
   View,
 } from 'react-native';
+import { CartButton } from '../../components/CartButton/CartButton';
 
 import { ProductCard } from '../../components/ProductCard/ProductCard';
 import { Search } from '../../components/Search/Search';
 import { useFetchProducts } from '../../hooks/useFetchProducts';
+import { useCartStore } from '../../store/cart';
 import { PageInfo } from './components/PageInfo';
 import { styles } from './Home.styles';
 
 export const HomeScreen = () => {
   const { products, loading, error } = useFetchProducts();
   const [term, setTerm] = useState('');
+  const addToCart = useCartStore((store) => store.actions.add);
 
   const localProducts = useMemo(() => {
     if (term) {
@@ -55,7 +58,7 @@ export const HomeScreen = () => {
       <View style={styles.header}>
         <Text style={styles.brand}>Brand</Text>
         <Search doSearch={setTerm} />
-        {/* <Cart /> */}
+        <CartButton />
       </View>
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -63,7 +66,7 @@ export const HomeScreen = () => {
         data={localProducts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <ProductCard product={item} addToCart={() => null} />
+          <ProductCard product={item} addToCart={() => addToCart(item)} />
         )}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         ListHeaderComponent={<PageInfo quantity={localProducts.length} />}

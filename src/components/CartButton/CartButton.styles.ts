@@ -9,8 +9,11 @@ export const styles = StyleSheet.create({
     backgroundColor: '#2B6CB0',
     top: -10,
     right: -10,
-    padding: 3,
+    width: 15,
+    height: 15,
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   badgeText: {
     fontSize: 10,
