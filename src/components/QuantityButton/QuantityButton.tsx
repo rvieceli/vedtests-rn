@@ -5,13 +5,17 @@ import { styles } from './QuantityButton.styles';
 
 export interface QuantityButtonProps {
   value: number;
-  onChange: (quantity: number) => void;
+  onChange?: (quantity: number) => void;
+  increase?: (quantity: number) => void;
+  decrease?: (quantity: number) => void;
   min?: number;
   max?: number;
 }
 
 export const QuantityButton = ({
   onChange,
+  increase,
+  decrease,
   value,
   min,
   max,
@@ -22,7 +26,8 @@ export const QuantityButton = ({
     if (typeof max === 'number' && newValue > max) {
       return;
     }
-    onChange(newValue);
+    onChange?.(newValue);
+    increase?.(newValue);
   };
 
   const handleDecrease = () => {
@@ -32,7 +37,8 @@ export const QuantityButton = ({
       return;
     }
 
-    onChange(newValue);
+    onChange?.(newValue);
+    decrease?.(newValue);
   };
 
   return (

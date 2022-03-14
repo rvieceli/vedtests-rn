@@ -1,4 +1,4 @@
-import { Server } from 'miragejs';
+import { createServer } from 'miragejs';
 import factories from './factories';
 import routes from './routes';
 import models from './models';
@@ -23,5 +23,8 @@ const setup = (environment: EnvType = 'development') => {
 };
 
 export function makeServer({ environment = 'development' }: MakeServerProps = {}) {
-  return new Server(setup(environment));
+  // return new Server<typeof models>(setup(environment));
+  return createServer(setup(environment));
 }
+
+export type Server = ReturnType<typeof makeServer>;

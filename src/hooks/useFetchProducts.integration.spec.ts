@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { Response, Server } from 'miragejs';
-import { makeServer } from '../miragejs/server';
+import { Response } from 'miragejs';
+import { makeServer, Server } from '../miragejs/server';
 import { useFetchProducts } from './useFetchProducts';
 
 describe('useFetchProducts api', () => {

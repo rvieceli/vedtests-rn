@@ -18,5 +18,5 @@ export default {
   messages: Model.extend({
     user: belongsTo(),
   }),
-  product: Model.extend<Partial<{ title: string }>>({}),
+  product: Model,
 };

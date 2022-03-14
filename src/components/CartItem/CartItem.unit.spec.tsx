@@ -1,42 +1,69 @@
+import { act, renderHook, RenderResult } from '@testing-library/react-hooks';
 import { render, fireEvent } from '@testing-library/react-native';
+import { makeServer, Server } from '../../miragejs/server';
+import { CartStore, useCartStore } from '../../store/cart';
 import { CartItem } from './CartItem';
 
-const product = {
-  id: 1,
-  title: 'Beautiful Watch',
-  price: '10',
-  image:
-    'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q',
-};
-
-const renderCartItem = () => {
-  return render(<CartItem product={product} />);
+const RenderCartItem = () => {
+  const items = useCartStore((store) => store.state.items);
+  if (items.length === 0) {
+    return null;
+  }
+  return <CartItem product={items[0].product} quantity={items[0].quantity} />;
 };
 
 describe('CartItem component', () => {
+  let server: Server;
+  let result: RenderResult<CartStore>;
+
+  beforeEach(() => {
+    server = makeServer();
+
+    const product = server.create('product');
+
+    result = renderHook(() => useCartStore()).result;
+
+    act(() => result.current.actions.add(product));
+  });
+
+  afterEach(() => {
+    server.shutdown();
+  });
+
   describe('when it renders', () => {
     it('should render correctly', () => {
-      const { getByTestId } = renderCartItem();
+      const cartItem = result.current.state.items[0];
+      const { getByTestId } = render(
+        <CartItem product={cartItem.product} quantity={cartItem.quantity} />,
+      );
       const card = getByTestId('cart-item');
 
       expect(card).toBeDefined();
     });
 
     it('should display proper content', async () => {
-      const { getByText, getByTestId } = renderCartItem();
+      const cartItem = result.current.state.items[0];
+      const { getByTestId, getByText } = render(
+        <CartItem product={cartItem.product} quantity={cartItem.quantity} />,
+      );
 
       const image = getByTestId('cart-item-image');
 
-      expect(getByText(new RegExp(product.title, 'i'))).toBeDefined();
-      expect(getByText(new RegExp(product.price, 'i'))).toBeDefined();
-      expect(image).toHaveProperty('props.source.uri', product.image);
-      expect(image).toHaveProperty('props.accessibilityLabel', product.title);
+      expect(getByText(new RegExp(cartItem.product.title, 'i'))).toBeDefined();
+      expect(
+        getByText(new RegExp(String(cartItem.product.price), 'i')),
+      ).toBeDefined();
+      expect(image).toHaveProperty('props.source.uri', cartItem.product.image);
+      expect(image).toHaveProperty(
+        'props.accessibilityLabel',
+        cartItem.product.title,
+      );
     });
   });
 
   describe('when changes quantity', () => {
     it('should show initial quantity as 1', () => {
-      const { getByTestId } = renderCartItem();
+      const { getByTestId } = render(<RenderCartItem />);
 
       const quantity = getByTestId('quantity-button-quantity');
 
@@ -44,7 +71,7 @@ describe('CartItem component', () => {
     });
 
     it('should increase quantity by 1 when (+) button is pressed', () => {
-      const { getByTestId } = renderCartItem();
+      const { getByTestId } = render(<RenderCartItem />);
 
       const quantity = getByTestId('quantity-button-quantity');
       const increaseButton = getByTestId('quantity-button-increase');
@@ -54,7 +81,7 @@ describe('CartItem component', () => {
     });
 
     it('should decrease quantity by 1 when (-) button is pressed', () => {
-      const { getByTestId } = renderCartItem();
+      const { getByTestId } = render(<RenderCartItem />);
 
       const quantity = getByTestId('quantity-button-quantity');
       const decreaseButton = getByTestId('quantity-button-decrease');
@@ -65,7 +92,7 @@ describe('CartItem component', () => {
     });
 
     it('should not decrease quantity less than ZERO when (-) button is pressed', () => {
-      const { getByTestId } = renderCartItem();
+      const { getByTestId } = render(<RenderCartItem />);
 
       const quantity = getByTestId('quantity-button-quantity');
       const decreaseButton = getByTestId('quantity-button-decrease');

@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { render, waitFor, fireEvent } from '@testing-library/react-native';
-import { Response, Server } from 'miragejs';
-import { makeServer } from '../../miragejs/server';
+import { Response } from 'miragejs';
+import { makeServer, Server } from '../../miragejs/server';
 import { useCartStore } from '../../store/cart';
 import { HomeScreen } from './Home.screen';
 

@@ -21,7 +21,10 @@ const images = [
 ];
 
 export default {
-  product: Factory.extend<Partial<{ title: string; price: number; image: string }>>({
+  product: Factory.extend<{ id: string; title: string; price: number; image: string }>({
+    id(i) {
+      return String(i);
+    },
     title() {
       return faker.commerce.productName();
     },

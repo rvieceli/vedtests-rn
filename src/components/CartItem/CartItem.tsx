@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Dimensions, Image, Text, View } from 'react-native';
 
 import { useCartStore } from '../../store/cart';
@@ -14,15 +13,15 @@ type Product = {
 };
 interface CartItemProps {
   product: Product;
+  quantity: number;
 }
 
 const { width } = Dimensions.get('window');
 
 const cardWidth = width / 5;
 
-export const CartItem = ({ product }: CartItemProps) => {
-  const [quantity, setQuantity] = useState(1);
-  const remove = useCartStore((store) => store.actions.remove);
+export const CartItem = ({ product, quantity }: CartItemProps) => {
+  const { remove, increase, decrease } = useCartStore((store) => store.actions);
 
   return (
     <View testID="cart-item" style={styles.container}>
@@ -52,7 +51,12 @@ export const CartItem = ({ product }: CartItemProps) => {
               name="trash"
               color="#FEB2B2"
             />
-            <QuantityButton value={quantity} onChange={setQuantity} min={0} />
+            <QuantityButton
+              value={quantity}
+              increase={() => increase(product)}
+              decrease={() => decrease(product)}
+              min={0}
+            />
           </View>
         </View>
       </View>

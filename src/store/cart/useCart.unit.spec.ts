@@ -1,9 +1,10 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { Server } from 'miragejs';
 import { useCartStore } from '.';
-import { makeServer } from '../../miragejs/server';
+import { makeServer, Server } from '../../miragejs/server';
 
 import { setAutoFreeze } from 'immer';
+import { createCartItem } from './useCart.store';
+import { CartActions } from './useCart.types';
 
 describe('useCart store', () => {
   let server: Server;
@@ -46,11 +47,13 @@ describe('useCart store', () => {
       const { result } = renderHook(() => useCartStore());
 
       products.forEach((product) => {
-        act(() => result.current.actions.add(product as any));
+        act(() => result.current.actions.add(product));
       });
 
       expect(result.current.state.items).toHaveLength(2);
-      expect(result.current.state.items).toEqual(products);
+      expect(result.current.state.items).toEqual(
+        products.map((product) => createCartItem(product)),
+      );
     });
 
     it('should toggle state.open to true', () => {
@@ -60,10 +63,10 @@ describe('useCart store', () => {
 
       expect(result.current.state.open).toEqual(false);
 
-      act(() => result.current.actions.add(product as any));
+      act(() => result.current.actions.add(product));
 
       expect(result.current.state.items).toHaveLength(1);
-      expect(result.current.state.items).toEqual([product]);
+      expect(result.current.state.items).toEqual([createCartItem(product)]);
       expect(result.current.state.open).toEqual(true);
     });
 
@@ -72,11 +75,80 @@ describe('useCart store', () => {
 
       const { result } = renderHook(() => useCartStore());
 
-      act(() => result.current.actions.add(product as any));
-      act(() => result.current.actions.add(product as any));
+      act(() => result.current.actions.add(product));
+      act(() => result.current.actions.add(product));
 
       expect(result.current.state.items).toHaveLength(1);
-      expect(result.current.state.items).toEqual([product]);
+      expect(result.current.state.items).toEqual([createCartItem(product)]);
+    });
+  });
+
+  describe('when call actions.increase', () => {
+    it('should increase the item.quantity', () => {
+      const [product1, product2] = server.createList('product', 2);
+
+      const { result } = renderHook(() => useCartStore());
+
+      act(() => result.current.actions.add(product1));
+      act(() => result.current.actions.add(product2));
+
+      expect(result.current.state.items).toHaveLength(2);
+      expect(result.current.state.items).toEqual([
+        createCartItem(product1),
+        createCartItem(product2),
+      ]);
+
+      act(() => result.current.actions.increase(product1));
+
+      expect(result.current.state.items).toHaveLength(2);
+      expect(result.current.state.items).toEqual([
+        createCartItem(product1, 2),
+        createCartItem(product2, 1),
+      ]);
+    });
+  });
+
+  describe('when call actions.decrease', () => {
+    it('should decrease the item.quantity', () => {
+      const [product1, product2] = server.createList('product', 2);
+
+      const { result } = renderHook(() => useCartStore());
+
+      act(() => result.current.actions.add(product1));
+      act(() => result.current.actions.add(product2));
+
+      act(() => result.current.actions.increase(product1));
+
+      expect(result.current.state.items).toHaveLength(2);
+      expect(result.current.state.items).toEqual([
+        createCartItem(product1, 2),
+        createCartItem(product2, 1),
+      ]);
+
+      act(() => result.current.actions.decrease(product1));
+
+      expect(result.current.state.items).toHaveLength(2);
+      expect(result.current.state.items).toEqual([
+        createCartItem(product1, 1),
+        createCartItem(product2, 1),
+      ]);
+    });
+
+    it('should not decrease item.quantity to less than zero', () => {
+      const product = server.create('product');
+
+      const { result } = renderHook(() => useCartStore());
+
+      act(() => result.current.actions.add(product));
+
+      expect(result.current.state.items).toHaveLength(1);
+      expect(result.current.state.items).toEqual([createCartItem(product, 1)]);
+
+      act(() => result.current.actions.decrease(product));
+      expect(result.current.state.items).toEqual([createCartItem(product, 0)]);
+
+      act(() => result.current.actions.decrease(product));
+      expect(result.current.state.items).toEqual([createCartItem(product, 0)]);
     });
   });
 
@@ -122,19 +194,22 @@ describe('useCart store', () => {
       const { result } = renderHook(() => useCartStore());
 
       act(() => {
-        result.current.actions.add(product1 as any);
-        result.current.actions.add(product2 as any);
-        result.current.actions.add(product3 as any);
+        result.current.actions.add(product1);
+        result.current.actions.add(product2);
+        result.current.actions.add(product3);
       });
 
       expect(result.current.state.items).toHaveLength(3);
 
       act(() => {
-        result.current.actions.remove(product2 as any);
+        result.current.actions.remove(product2);
       });
 
       expect(result.current.state.items).toHaveLength(2);
-      expect(result.current.state.items).toEqual([product1, product3]);
+      expect(result.current.state.items).toEqual([
+        createCartItem(product1),
+        createCartItem(product3),
+      ]);
     });
 
     it('should be able to remove with product.id', () => {
@@ -143,7 +218,7 @@ describe('useCart store', () => {
       const { result } = renderHook(() => useCartStore());
 
       act(() => {
-        result.current.actions.add(product as any);
+        result.current.actions.add(product);
       });
 
       expect(result.current.state.items).toHaveLength(1);
@@ -154,36 +229,6 @@ describe('useCart store', () => {
 
       expect(result.current.state.items).toHaveLength(0);
     });
-
-    describe('when product does not exists in store.items', () => {
-      it('should do nothing', () => {
-        const [product1, product2] = server.createList('product', 2);
-
-        const { result } = renderHook(() => useCartStore());
-
-        const spyRemove = jest.spyOn(result.current.actions, 'remove');
-
-        act(() => result.current.actions.add(product1 as any));
-
-        expect(result.current.state.items).toHaveLength(1);
-        expect(result.all).toHaveLength(2);
-
-        act(() => {
-          result.current.actions.remove('i-am-not-in-ID');
-        });
-        expect(spyRemove).toHaveBeenCalledWith('i-am-not-in-ID');
-
-        act(() => {
-          result.current.actions.remove(product2 as any);
-        });
-        expect(spyRemove).toHaveBeenCalledWith(product2);
-
-        expect(spyRemove).toHaveBeenCalledTimes(2);
-
-        expect(result.current.state.items).toHaveLength(1);
-        expect(result.all).toHaveLength(2);
-      });
-    });
   });
 
   describe('when call actions.removeAll', () => {
@@ -193,9 +238,7 @@ describe('useCart store', () => {
       const { result } = renderHook(() => useCartStore());
 
       act(() => {
-        products.forEach((product) =>
-          result.current.actions.add(product as any),
-        );
+        products.forEach((product) => result.current.actions.add(product));
       });
 
       expect(result.current.state.items).toHaveLength(2);
@@ -205,6 +248,38 @@ describe('useCart store', () => {
       });
 
       expect(result.current.state.items).toHaveLength(0);
+    });
+  });
+
+  describe('when product does not exists in store.items', () => {
+    const cases: Array<keyof CartActions> = ['remove', 'increase', 'decrease'];
+
+    it.each(cases)('should do nothing when call actions %p', (method) => {
+      const [product1, product2] = server.createList('product', 2);
+
+      const { result } = renderHook(() => useCartStore());
+
+      const spy = jest.spyOn(result.current.actions, method);
+
+      act(() => result.current.actions.add(product1));
+
+      expect(result.current.state.items).toHaveLength(1);
+      expect(result.all).toHaveLength(2);
+
+      act(() => {
+        result.current.actions[method]('i-am-not-in-ID' as any);
+      });
+      expect(spy).toHaveBeenCalledWith('i-am-not-in-ID');
+
+      act(() => {
+        result.current.actions[method](product2);
+      });
+      expect(spy).toHaveBeenCalledWith(product2);
+
+      expect(spy).toHaveBeenCalledTimes(2);
+
+      expect(result.current.state.items).toHaveLength(1);
+      expect(result.all).toHaveLength(2);
     });
   });
 });
