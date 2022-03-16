@@ -41,7 +41,7 @@ export const useCartStore = create<CartStore>((set, get) => {
 
         setState(({ state }: CartStore) => {
           state.items = [...state.items, cartItem];
-          state.open = true;
+          // state.open = true;
         });
       },
       increase(productOrId) {

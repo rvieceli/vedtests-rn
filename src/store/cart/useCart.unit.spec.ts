@@ -56,20 +56,6 @@ describe('useCart store', () => {
       );
     });
 
-    it('should toggle state.open to true', () => {
-      const product = server.create('product');
-
-      const { result } = renderHook(() => useCartStore());
-
-      expect(result.current.state.open).toEqual(false);
-
-      act(() => result.current.actions.add(product));
-
-      expect(result.current.state.items).toHaveLength(1);
-      expect(result.current.state.items).toEqual([createCartItem(product)]);
-      expect(result.current.state.open).toEqual(true);
-    });
-
     it('should not add same products twice', () => {
       const product = server.create('product');
 
