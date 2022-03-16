@@ -1,5 +1,6 @@
 import { Factory } from 'miragejs';
-import faker from '@faker-js/faker';
+// import faker from '@faker-js/faker'; //npm run test -- --detectLeaks fails
+import faker from '@faker-js/faker/locale/en';
 
 const images = [
   'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',

@@ -2,8 +2,6 @@
  * Mirage JS guide on Factories: https://miragejs.com/docs/data-layer/factories
  */
 
-import user from './user';
-import message from './message';
 import product from './product';
 
 /*
@@ -12,7 +10,5 @@ import product from './product';
  * be done for all future factories
  */
 export default {
-  ...user,
-  ...message,
   ...product,
 };

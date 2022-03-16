@@ -2,21 +2,16 @@
  * Mirage JS guide on Seeds: https://miragejs.com/docs/data-layer/factories#in-development
  */
 
-const usersSeeder = (server) => {
+const productsSeeder = (server) => {
   /*
    * This will create in the in memory DB 10 objects
-   * of the Factory `user`. Moreover it creates a
+   * of the Factory `product`. Moreover it creates a
    * random number of messages and assign to each
-   * and every user, making use of relationships.
+   * and every product, making use of relationships.
    */
-  server.createList('user', 10);
-};
-
-const productsSeeder = (server) => {
   server.createList('product', 25);
 };
 
 export default function seeds(server) {
-  usersSeeder(server);
   productsSeeder(server);
 }
