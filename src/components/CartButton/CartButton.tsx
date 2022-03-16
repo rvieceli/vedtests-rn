@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { MotiView } from 'moti';
+import { Text } from 'react-native';
 import { useCartStore } from '../../store/cart';
 import { IconButton } from '../IconButton/IconButton';
 import { styles } from './CartButton.styles';
@@ -13,7 +14,20 @@ export const CartButton = () => {
     }
 
     return (
-      <View style={styles.badge}>
+      <MotiView
+        key={String(badge)}
+        from={{
+          scale: 2,
+        }}
+        animate={{
+          scale: 1,
+        }}
+        transition={{
+          type: 'timing',
+          duration: 500,
+          delay: 100,
+        }}
+        style={styles.badge}>
         <Text
           testID="cart-button-badge"
           style={styles.badgeText}
@@ -21,7 +35,7 @@ export const CartButton = () => {
           adjustsFontSizeToFit>
           {badge}
         </Text>
-      </View>
+      </MotiView>
     );
   };
 

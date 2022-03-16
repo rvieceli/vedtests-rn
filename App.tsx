@@ -1,3 +1,4 @@
+import 'react-native-reanimated';
 import 'abort-controller/polyfill';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
