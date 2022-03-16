@@ -24,6 +24,8 @@ export const styles = StyleSheet.create({
     color: '#4A5568',
     fontSize: 14,
     fontWeight: '500',
+    height: 34,
+    lineHeight: 16,
   },
   price: {
     color: '#2D3748',

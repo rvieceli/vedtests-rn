@@ -40,7 +40,7 @@ export const ProductCard = ({ product, addToCart }: ProductCartProps) => {
             style={styles.title}
             numberOfLines={2}
             adjustsFontSizeToFit
-            minimumFontScale={0.7}>
+            minimumFontScale={0.8}>
             {product.title}
           </Text>
           <View style={styles.footer}>

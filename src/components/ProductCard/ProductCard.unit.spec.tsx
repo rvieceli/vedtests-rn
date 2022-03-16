@@ -2,9 +2,9 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { ProductCard } from './ProductCard';
 
 const product = {
-  id: 1,
+  id: '1',
   title: 'Beautiful Watch',
-  price: '10',
+  price: 10,
   image:
     'https://images.unsplash.com/photo-1495856458515-0637185db551?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q',
 };
@@ -29,7 +29,7 @@ describe('ProductCard component', () => {
     const image = getByTestId('product-card-image');
 
     expect(getByText(new RegExp(product.title, 'i'))).toBeDefined();
-    expect(getByText(new RegExp(product.price, 'i'))).toBeDefined();
+    expect(getByText(new RegExp(String(product.price), 'i'))).toBeDefined();
     expect(image.props.source.uri).toBe(product.image);
   });
 
